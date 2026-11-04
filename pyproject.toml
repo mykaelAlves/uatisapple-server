@@ -1,0 +1,15 @@
+[project]
+name = "uatisapple-server"
+version = "0.1.0"
+description = "Servidor da aplicação de mensageria segura multi-cliente Uatisapple com criptografia ponta-a-ponta (E2E). Atua como relay, sem capacidade de decifrar mensagens."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "loguru>=0.7.3",
+    "pydantic>=2.14.2",
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.4.1.post1",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "FAST"]
