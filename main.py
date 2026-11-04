@@ -1,10 +1,11 @@
 import asyncio
-import loguru
+
+from loguru import logger
 
 from src.server import server_run
 
 if __name__ == "__main__":
     try:
         asyncio.run(server_run())
-    except:
-        loguru.logger.exception("Servidor desligado inesperadamente!")
+    except Exception:
+        logger.exception("Servidor desligado inesperadamente!")
