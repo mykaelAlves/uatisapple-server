@@ -6,3 +6,6 @@ __pycache__/
 skills/
 
 .env
+
+# Chave privada do servidor (NUNCA versionar)
+certs/

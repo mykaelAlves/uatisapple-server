@@ -5,6 +5,7 @@ description = "Servidor da aplicação de mensageria segura multi-cliente Uatisa
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "cryptography>=50.0.2",
     "loguru>=0.7.3",
     "pydantic>=2.14.2",
     "pytest>=9.2.0",
