@@ -158,11 +158,6 @@ class ServerRelay:
     def _register(
         self, session: ClientSession
     ) -> tuple[list[PeerInfo], list[tuple[ClientSession, PeerInfo]]]:
-        """Insere a sessão e gera um salt novo para cada par (novo, existente).
-
-        Executa sem `await`, então a tabela e as listas enviadas ficam consistentes
-        mesmo com registros concorrentes.
-        """
         peers: list[PeerInfo] = []
         announcements: list[tuple[ClientSession, PeerInfo]] = []
         for other in self.sessions.values():
@@ -210,7 +205,6 @@ class ServerRelay:
     async def _relay(
         self, session: ClientSession, header: E2EHeader, frame: bytes
     ) -> None:
-        """Encaminha o frame E2E intacto. O conteúdo nunca é decifrado."""
         cid = session.client_id
         rid = header.recipient_id
 
@@ -269,7 +263,6 @@ class ServerRelay:
         )
 
     async def shutdown(self) -> None:
-        """Avisa todos os clientes e fecha as conexões."""
         sessions = list(self.sessions.values())
         if not sessions:
             return
@@ -292,7 +285,6 @@ class ServerRelay:
     async def send_admin(
         self, session: ClientSession, admin_type: AdminType, payload: bytes
     ) -> bool:
-        """Envia uma mensagem administrativa cifrada com Key_S2C e seq_send próprio."""
         if session.writer.is_closing():
             return False
         try:
@@ -318,7 +310,6 @@ class ServerRelay:
             return False
 
     async def _reject(self, session: ClientSession, code: ErrorCode, message: str):
-        """Erro fatal: envia ERROR + DISCONNECT. O chamador encerra a conexão."""
         await self.send_admin(session, AdminType.ERROR, error_payload(code, message))
         await self.send_admin(
             session,
@@ -327,7 +318,6 @@ class ServerRelay:
         )
 
     def _drop(self, session: ClientSession, error: BaseException) -> None:
-        """Falha ao enviar: aborta a conexão; o handler do cliente faz a limpeza."""
         logger.warning(f"[{session.client_id}] Falha ao enviar: {error!r}.")
         transport = session.writer.transport
         if transport is not None:

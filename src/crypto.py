@@ -35,7 +35,6 @@ PSS_PADDING = padding.PSS(
 
 
 def fingerprint(data: bytes) -> str:
-    """Fingerprint curto (SHA-256) para logs. Nunca logar a chave em si."""
     return hashlib.sha256(data).hexdigest()[:16]
 
 
